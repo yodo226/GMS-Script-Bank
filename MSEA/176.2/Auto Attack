@@ -1,0 +1,32 @@
+//Auto Kill Maple
+//MSEA v176.2
+[enable]
+alloc(hook, 128)
+Label(skip)
+
+0243F360:
+jmp hook
+
+hook:
+cmp ebx,eax
+je skip
+pushad
+push 0
+push ffffffff
+call TerminateProcess
+test eax,eax
+popad
+jnz skip
+xor eax,eax
+div eax
+
+skip:
+jmp 0243F33E
+
+[disable]
+0243F360:
+push ebp
+mov ebp,esp
+push -01
+
+DeAlloc(hook)
